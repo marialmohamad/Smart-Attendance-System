@@ -7,7 +7,7 @@ Smart Attendance System automates attendance tracking using QR code scanning and
 - User registration with role-based IDs (student or employee)
 - Attendance marking via QR code or manual input
 - Attendance logging with timestamps stored in SQLite database
-- Real-time attendance monitoring and duplicate attendance prevention
+- Real-time attendance monitoring and prevention of duplicate attendance
 - Admin panel to view, filter, and export attendance logs
 - Secure user authentication with password hashing
 - Password reset functionality with secure token generation
@@ -24,5 +24,6 @@ Smart Attendance System automates attendance tracking using QR code scanning and
 ## Getting Started
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/Smart-Attendance-System.git
