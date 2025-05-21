@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Attendance QR Code</h2>
+    <p>This QR code will expire in {{ QR_CODE_VALID_SECONDS }} seconds.</p>
+    
+    <div class="qr-container text-center my-4">
+        <img src="data:image/png;base64,{{ qr_code }}" alt="Attendance QR Code" class="img-fluid">
+    </div>
+    
+    <div class="alert alert-info">
+        <p>To mark your attendance:</p>
+        <ol>
+            <li>Open the scanner on your device</li>
+            <li>Scan this QR code</li>
+            <li>Your attendance will be automatically recorded</li>
+        </ol>
+    </div>
+    
+    <a href="{{ url_for('generate_qr') }}" class="btn btn-primary">Refresh QR Code</a>
+</div>
+{% endblock %}

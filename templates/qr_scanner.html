@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="scanner-container">
+    <h2>QR Attendance Scanner</h2>
+
+    <!-- Camera Feed -->
+    <video id="preview" autoplay playsinline></video>
+
+    <!-- Scan Results -->
+    <div id="scanResult" class="alert" style="display:none;"></div>
+
+    <!-- Manual Fallback -->
+    <div class="manual-fallback">
+        <p>Camera not working? <button id="manualTrigger">Enter Code Manually</button></p>
+        <div id="manualInput" style="display:none;">
+            <input type="text" id="manualCode" placeholder="Paste QR code data">
+            <button id="manualSubmit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script>
+    // Camera Elements
+    const video = document.getElementById('preview');
+    const resultDiv = document.getElementById('scanResult');
+    let scannerInterval;
+
+    // Start Camera Function
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: "environment" }
+            });
+            video.srcObject = stream;
+            startScanner();
+        } catch (error) {
+            showError("Camera Error: " + error.message);
+        }
+    }
+
+    // QR Scanning Function
+    function startScanner() {
+        scannerInterval = setInterval(() => {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                if (code) {
+                    clearInterval(scannerInterval);
+                    processQR(code.data);
+                }
+            }
+        }, 500);
+    }
+
+    // Process Scanned QR
+    function processQR(qrData) {
+        fetch('/scan_qr', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ qr_data: qrData })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showSuccess("Attendance marked successfully for " + data.user.username);
+                // Optional: Redirect after 3 seconds
+                setTimeout(() => window.location.href = '/dashboard', 3000);
+            } else {
+                showError(data.message);
+                // Restart scanner on error
+                startScanner();
+            }
+        })
+        .catch(error => {
+            showError("Network error: " + error.message);
+            startScanner();
+        });
+    }
+
+    // UI Helpers
+    function showSuccess(message) {
+        resultDiv.style.display = "block";
+        resultDiv.className = "alert alert-success";
+        resultDiv.innerHTML = message;
+    }
+
+    function showError(message) {
+        resultDiv.style.display = "block";
+        resultDiv.className = "alert alert-danger";
+        resultDiv.innerHTML = message;
+    }
+
+    // Manual Entry Handlers
+    document.getElementById('manualTrigger').addEventListener('click', () => {
+        document.getElementById('manualInput').style.display = 'block';
+    });
+
+    document.getElementById('manualSubmit').addEventListener('click', () => {
+        const code = document.getElementById('manualCode').value;
+        if (code) processQR(code);
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', startCamera);
+</script>
+
+<style>
+    .scanner-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    #preview {
+        width: 100%;
+        background: #000;
+        margin: 10px 0;
+    }
+
+    .alert {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .manual-fallback {
+        margin-top: 20px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}

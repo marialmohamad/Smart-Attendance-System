@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="registration-container">
+    <h2>User Registration</h2>
+    <form method="POST" class="registration-form">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter a secure password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <select id="role" name="role" required>
+                <option value="" disabled selected>Select your role</option>
+                <option value="student">Student</option>
+                <option value="employee">Employee</option>
+            </select>
+        </div>
+
+        <button type="submit" class="register-btn">Register</button>
+    </form>
+</div>
+
+<style>
+    /* Center the registration form */
+    .registration-container {
+        max-width: 450px;
+        margin: 50px auto;
+        padding: 40px;
+        background: linear-gradient(145deg, #ffffff, #e6e6e6);
+        border-radius: 16px;
+        box-shadow: 10px 10px 20px #b8b8b8, -10px -10px 20px #ffffff;
+        text-align: center;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* Hover effect for container */
+    .registration-container:hover {
+        transform: translateY(-10px);
+    }
+
+    /* Form labels styling */
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* Form input styling with spacing */
+    input, select {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px; /* Increased margin to push fields lower */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: inset 4px 4px 8px #d1d1d1, inset -4px -4px 8px #ffffff;
+        font-size: 14px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    /* Input focus effect */
+    input:focus, select:focus {
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+    }
+
+    /* Form group spacing */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    /* Register button styling */
+    .register-btn {
+        width: 100%;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 4px 4px 8px #b8b8b8, -4px -4px 8px #ffffff;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Button hover effect */
+    .register-btn:hover {
+        background: linear-gradient(90deg, #0056b3, #003d80);
+        transform: translateY(-2px);
+    }
+</style>
+
+{% if get_flashed_messages() %}
+    <div class="flash">
+        {% for message in get_flashed_messages() %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

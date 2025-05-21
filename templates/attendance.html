@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="attendance-container">
+    <h2>Mark Attendance</h2>
+    <form method="POST" class="attendance-form">
+        <div class="form-group">
+            <label for="user_id">User ID:</label>
+            <input type="text" id="user_id" name="user_id" placeholder="Enter your user ID" required>
+        </div>
+
+        <button type="submit" class="attendance-btn">Mark Attendance</button>
+    </form>
+</div>
+
+<style>
+    /* Center the attendance form */
+    .attendance-container {
+        max-width: 450px;
+        margin: 100px auto; /* Pushes the form lower */
+        padding: 40px;
+        background: linear-gradient(145deg, #ffffff, #e6e6e6);
+        border-radius: 16px;
+        box-shadow: 10px 10px 20px #b8b8b8, -10px -10px 20px #ffffff;
+        text-align: center;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* Hover effect for the container */
+    .attendance-container:hover {
+        transform: translateY(-10px);
+    }
+
+    /* Form group styling */
+    .form-group {
+        margin-bottom: 30px; /* Space between input and button */
+    }
+
+    /* Label styling */
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* Input styling */
+    input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px; /* Pushes input down */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: inset 4px 4px 8px #d1d1d1, inset -4px -4px 8px #ffffff;
+        font-size: 14px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    /* Input focus effect */
+    input:focus {
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+    }
+
+    /* Attendance button styling */
+    .attendance-btn {
+        width: 100%;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 4px 4px 8px #b8b8b8, -4px -4px 8px #ffffff;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Button hover effect */
+    .attendance-btn:hover {
+        background: linear-gradient(90deg, #0056b3, #004085);
+        transform: translateY(-2px);
+    }
+
+    /* Responsive design for small screens */
+    @media (max-width: 600px) {
+        .attendance-container {
+            padding: 20px;
+        }
+
+        input, .attendance-btn {
+            padding: 10px;
+            font-size: 14px;
+        }
+    }
+</style>
+{% endblock %}

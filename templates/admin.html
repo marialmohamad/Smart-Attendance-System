@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-panel-container">
+    <h2>Admin Panel</h2>
+
+    <!-- Attendance Logs Table -->
+    <h3>Attendance Logs</h3>
+    <div class="table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in attendance_logs %}
+                <tr>
+                    <td>{{ log.user_id }}</td>
+                    <td>{{ log.username }}</td>
+                    <td>{{ log.role }}</td>
+                    <td>{{ log.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Login Logs Table -->
+    <h3>Login Logs</h3>
+    <div class="table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Status</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in login_logs %}
+                <tr>
+                    <td>{{ log.user_id }}</td>
+                    <td>{{ log.status }}</td>
+                    <td>{{ log.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    /* Center the admin panel */
+    .admin-panel-container {
+        max-width: 900px;
+        margin: 80px auto; /* Pushes the table lower */
+        padding: 40px;
+        background: linear-gradient(145deg, #ffffff, #e6e6e6);
+        border-radius: 16px;
+        box-shadow: 10px 10px 20px #b8b8b8, -10px -10px 20px #ffffff;
+        transition: transform 0.3s ease;
+    }
+
+    /* Hover effect for the container */
+    .admin-panel-container:hover {
+        transform: translateY(-10px);
+    }
+
+    /* Table wrapper for scroll on small screens */
+    .table-wrapper {
+        overflow-x: auto; /* Enables horizontal scrolling if needed */
+    }
+
+    /* Admin table styling */
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 12px;
+        overflow: hidden; /* Ensures rounded corners on the table */
+        box-shadow: 4px 4px 8px #b8b8b8, -4px -4px 8px #ffffff;
+    }
+
+    /* Table header styling */
+    .admin-table thead {
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: white;
+    }
+
+    .admin-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    /* Table body styling */
+    .admin-table td {
+        padding: 12px 15px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    /* Alternating row color for better readability */
+    .admin-table tbody tr:nth-child(odd) {
+        background: #f9f9f9;
+    }
+
+    /* Hover effect on rows */
+    .admin-table tbody tr:hover {
+        background: #e0f3ff; /* Light blue hover */
+        transition: background 0.3s ease;
+    }
+
+    /* Responsive styling for small screens */
+    @media (max-width: 600px) {
+        .admin-panel-container {
+            padding: 20px;
+        }
+        .admin-table th, .admin-table td {
+            padding: 10px;
+            font-size: 12px;
+        }
+    }
+</style>
+{% endblock %}

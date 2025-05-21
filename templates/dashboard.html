@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Welcome, {{ username }}!</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Your Information</h5>
+            <p class="card-text">
+                <strong>User ID:</strong> {{ user_id }}<br>
+                <strong>Role:</strong> {{ role|capitalize }}
+            </p>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <a href="{{ url_for('generate_qr') }}" class="btn btn-primary mb-2">
+                        Generate Attendance QR Code
+                    </a>
+                    <a href="{{ url_for('qr_scanner') }}" class="btn btn-secondary mb-2">
+                        Open QR Scanner
+                    </a>
+                    <a href="{{ url_for('attendance') }}" class="btn btn-info mb-2">
+                        Manual Attendance
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
